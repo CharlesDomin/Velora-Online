@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order - Velora Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.2/core.css">
+  <script type="module" src="https://pyscript.net/releases/2024.5.2/core.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="logo" aria-label="Velora Online home">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 8 L20 34 L35 8" fill="none" stroke="#6d4aff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 8 L20 20 L27 8" fill="none" stroke="#0f1a3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="logo-text">VELORA <span>ONLINE</span></span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart (<span class="cart-count">0</span>)</a>
+    </nav>
+    <a href="products.html" class="btn btn-small">Shop Now</a>
+  </header>
+  <main>
+    <section class="section">
+      <h2>Order</h2>
+      <div id="order-empty" hidden>
+        <p>Your cart is empty.</p>
+        <a href="products.html" class="btn">Continue Shopping</a>
+      </div>
+      <div id="order-area" class="order-layout">
+        <div class="card">
+          <h3>Your cart</h3>
+          <ul id="order-items" class="order-items"></ul>
+          <dl class="results">
+            <div><dt>Subtotal</dt><dd id="subtotal"></dd></div>
+            <div><dt>Discount</dt><dd id="discount"></dd></div>
+            <div><dt>Delivery fee</dt><dd id="delivery"></dd></div>
+            <div class="total"><dt>Grand Total</dt><dd id="grand-total"></dd></div>
+          </dl>
+        </div>
+        <form id="order-form" class="card" novalidate>
+          <h3>Customer information</h3>
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name">
+          <label for="email">Email</label>
+          <input type="email" id="email">
+          <label for="phone">Contact Number</label>
+          <input type="text" id="phone" inputmode="numeric" maxlength="11" placeholder="09123456789">
+          <p id="phone-error" class="error"></p>
+          <label for="address">Delivery Address</label>
+          <textarea id="address" rows="3"></textarea>
+          <label for="proof-file">Upload Order/Reference File</label>
+          <input type="file" id="proof-file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+          <p id="file-info" class="hint">PDF, JPG, JPEG, PNG, DOC or DOCX</p>
+          <p id="file-error" class="error"></p>
+          <p id="form-error" class="error"></p>
+          <button type="submit" class="btn">Place Order</button>
+        </form>
+      </div>
+      <div id="order-confirmation" class="card confirm" hidden>
+        <h3 id="confirm-message"></h3>
+        <p id="confirm-total" class="price"></p>
+        <a href="products.html" class="btn">Continue Shopping</a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div>
+      <strong>Velora Online</strong>
+      <p>A simple online shop for quality everyday products.</p>
+    </div>
+    <div>
+      <a href="index.html">Home</a> <a href="products.html">Products</a> <a href="about.html">About</a> <a href="contact.html">Contact</a> <a href="cart.html">Cart</a>
+    </div>
+    <div>
+      <p>hello@veloraonline.example</p>
+      <p>09123456789 · Cebu City, Philippines</p>
+    </div>
+  </footer>
+  <script type="py" src="main.py"></script>
+</body>
+</html>
