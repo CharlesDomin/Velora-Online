@@ -1,63 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home - Velora Online</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.2/core.css">
-  <script type="module" src="https://pyscript.net/releases/2024.5.2/core.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home - Velora Online</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#5b3df5;--ink:#14163a;--muted:#5d6078;--bg:#faf9ff;--line:#e8e6f4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+.topbar{background:linear-gradient(90deg,#4a2fd8,#7c5cff);color:#fff;text-align:center;padding:10px 16px;font-size:14px;font-weight:600}
+.topbar a{text-decoration:underline;margin-left:8px}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.06em;font-size:22px}
+.logo img{width:38px;height:40px}
+.logo span{color:var(--brand)}
+nav{display:flex;gap:28px;font-size:18px}
+nav a:hover{color:var(--brand)}
+.btn{display:inline-block;background:var(--brand);color:#fff;font-weight:700;padding:14px 30px;border-radius:999px;border:2px solid var(--brand);font-size:18px;transition:.2s}
+.btn:hover{background:#4630d0}
+.btn.ghost{background:transparent;color:var(--brand)}
+.btn.ghost:hover{background:#efeaff}
+.hero{max-width:1200px;margin:auto;padding:70px 24px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(38px,5.5vw,70px);line-height:1.05;letter-spacing:-.03em;font-weight:800}
+.hero p{color:var(--muted);font-size:20px;line-height:1.6;margin:24px 0 32px;max-width:560px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.ad{justify-self:center;width:100%;max-width:300px;position:relative}
+.ad .tag{position:absolute;top:-12px;left:16px;background:#fff;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:999px;border:1px solid var(--line);z-index:2}
+.phone{border-radius:28px;overflow:hidden;box-shadow:0 24px 60px rgba(91,61,245,.35);background:#000;aspect-ratio:9/16;border:6px solid #1b1b3a}
+.phone video{width:100%;height:100%;object-fit:cover;display:block}
+.promos{max-width:1200px;margin:0 auto;padding:0 24px 70px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.promo{border-radius:20px;padding:28px;color:#fff;min-height:180px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.promo small{font-weight:700;letter-spacing:.08em;opacity:.85;font-size:12px}
+.promo h3{font-size:26px;margin:6px 0 10px;line-height:1.15}
+.promo a{font-weight:700;text-decoration:underline}
+.p1{background:linear-gradient(135deg,#5b3df5,#9b7bff)}
+.p2{background:linear-gradient(135deg,#14163a,#3a3f8f)}
+.p3{background:linear-gradient(135deg,#ff6b9a,#ff9a6b)}
+.promo::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;background:url(logo.svg) center/contain no-repeat;opacity:.15;filter:brightness(10)}
+footer{background:var(--ink);color:#c9cbe6;padding:40px 24px;text-align:center}
+footer .logo{justify-content:center;color:#fff;margin-bottom:10px}
+@media(max-width:860px){nav{display:none}.hero{grid-template-columns:1fr;padding-top:40px}.promos{grid-template-columns:1fr}.nav .btn{padding:10px 20px;font-size:16px}}
+
+section.block{max-width:1200px;margin:0 auto;padding:30px 24px 60px}
+section.block h2{font-size:34px;letter-spacing:-.02em;margin-bottom:6px}
+section.block .sub{color:var(--muted);margin-bottom:22px}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;align-items:center}
+.tools input,.tools select,.field input,.field textarea,.promo-row input{font:inherit;padding:12px 16px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}
+.tools input{flex:1;min-width:200px}
+.tools input:focus,.tools select:focus,.field input:focus,.field textarea:focus,.promo-row input:focus{border-color:var(--brand)}
+#result-count{color:var(--muted);font-size:14px;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(91,61,245,.15)}
+.thumb{height:130px;border-radius:12px;background:linear-gradient(135deg,#efeaff,#dcd2ff);display:grid;place-items:center;font-size:56px;margin-bottom:6px}
+.card small{color:var(--brand);font-weight:700;letter-spacing:.06em;font-size:11px;text-transform:uppercase}
+.card h3{font-size:17px}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
+.btn.sm{padding:8px 16px;font-size:14px;cursor:pointer;font-family:inherit}
+.empty{color:var(--muted);padding:20px 0}
+.cart-wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.item{display:grid;grid-template-columns:44px 1fr auto auto 28px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .em{font-size:30px;text-align:center}
+.item small{display:block;color:var(--muted)}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button,.x{border:1px solid var(--line);background:#fff;border-radius:8px;width:28px;height:28px;cursor:pointer;font-size:15px}
+.qty button:hover,.x:hover{background:#efeaff;border-color:var(--brand)}
+.x{border:0;color:#c0392b}
+.line{min-width:90px;text-align:right}
+.sum div{display:flex;justify-content:space-between;padding:7px 0;color:var(--muted)}
+.sum .total{color:var(--ink);font-weight:800;font-size:20px;border-top:1px solid var(--line);margin-top:6px;padding-top:12px}
+.promo-row{display:flex;gap:8px;margin:14px 0 6px}
+.promo-row input{flex:1;min-width:0;text-transform:uppercase}
+.msg{min-height:22px;font-size:14px;margin:4px 0 10px}
+.ok{color:#1f8f4e}.err{color:#c0392b}
+.bar{height:8px;background:#ece9fb;border-radius:99px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5b3df5,#9b7bff);transition:width .3s}
+.full{width:100%;text-align:center;cursor:pointer;font-family:inherit}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-weight:600;font-size:14px}
+.field textarea{min-height:120px;resize:vertical}
+.count{font-size:12px;color:var(--muted);text-align:right}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;transition:.3s;z-index:50}
+#toast.show{transform:translate(-50%,0)}
+@media(max-width:860px){.cart-wrap,.contact{grid-template-columns:1fr}.item{grid-template-columns:36px 1fr auto 28px}.line{display:none}}
+</style>
+<link rel="stylesheet" href="https://pyscript.net/releases/2024.11.1/core.css">
+<script type="module" src="https://pyscript.net/releases/2024.11.1/core.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <a href="index.html" class="logo" aria-label="Velora Online home">
-      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 8 L20 34 L35 8" fill="none" stroke="#6d4aff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 8 L20 20 L27 8" fill="none" stroke="#0f1a3d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="logo-text">VELORA <span>ONLINE</span></span>
-    </a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="cart.html">Cart (<span class="cart-count">0</span>)</a>
-    </nav>
-    <a href="products.html" class="btn btn-small">Shop Now</a>
-  </header>
-  <main>
-    <section class="hero">
-      <h1>Simple Shopping, Better Experience.</h1>
-      <p>Discover quality products and enjoy a simple, convenient online shopping experience with Velora Online.</p>
-      <div class="hero-buttons">
-        <a href="products.html" class="btn">Shop Now</a>
-        <a href="products.html" class="btn btn-outline">View Products</a>
-      </div>
-    </section>
-    <section class="section">
-      <h2>Featured Products</h2>
-      <p id="cart-message" class="message" role="status"></p>
-      <div id="featured-grid" class="grid"></div>
-    </section>
-    <section class="section tint">
-      <h2>About Velora Online</h2>
-      <p class="text">Velora Online is a small online shop built around one idea: buying should be easy. We offer clear products, clear prices and a simple ordering process.</p>
-      <a href="about.html" class="btn">Learn More</a>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <div>
-      <strong>Velora Online</strong>
-      <p>A simple online shop for quality everyday products.</p>
+<div class="topbar">Free shipping on your first order · Use code <b>VELORA10</b><a href="#products">Shop deals</a></div>
+<header>
+  <div class="nav">
+    <a class="logo" href="#"><img src="logo.svg" alt="Velora logo"> VELORA <span>ONLINE</span></a>
+    <nav><a href="#">Home</a><a href="#products">Products</a><a href="#about">About</a><a href="#contact">Contact</a><a id="cart-link" href="#cart">Cart (0)</a></nav>
+    <a class="btn" href="#products">Shop Now</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Simple Shopping, Better Experience.</h1>
+    <p>Discover quality products and enjoy a simple, convenient online shopping experience with Velora Online.</p>
+    <div class="cta"><a class="btn" href="#products">Shop Now</a><a class="btn ghost" href="#products">View Products</a></div>
+  </div>
+  <aside class="ad">
+    <span class="tag">SPONSORED</span>
+    <div class="phone">
+      <video src="ad.mp4" poster="poster.jpg" autoplay muted loop playsinline controls></video>
     </div>
-    <div>
-      <a href="index.html">Home</a> <a href="products.html">Products</a> <a href="about.html">About</a> <a href="contact.html">Contact</a> <a href="cart.html">Cart</a>
+  </aside>
+</section>
+
+<section class="promos">
+  <div class="promo p1"><small>NEW ARRIVALS</small><h3>Fresh kicks, just dropped</h3><a href="#">Shop sneakers</a></div>
+  <div class="promo p2"><small>GADGETS</small><h3>Headphones &amp; smart watches</h3><a href="#">Shop gadgets</a></div>
+  <div class="promo p3"><small>LIMITED OFFER</small><h3>10% off with VELORA10</h3><a href="#">Claim now</a></div>
+</section>
+
+
+<section class="block" id="shop">
+  <h2 id="products">Our Products</h2>
+  <p class="sub">Search, filter and sort &mdash; the list updates instantly as you type.</p>
+  <div class="tools">
+    <input id="search" type="search" placeholder="Search products...">
+    <select id="category"><option>All</option><option>Fashion</option><option>Gadgets</option><option>Home</option><option>Beauty</option></select>
+    <select id="sort"><option value="default">Sort: Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option></select>
+    <span id="result-count"></span>
+  </div>
+  <div class="grid" id="product-grid"><p class="empty">Loading products (starting Python)...</p></div>
+</section>
+
+<section class="block" id="cart">
+  <h2>Your Cart</h2>
+  <p class="sub">Free shipping on orders of &#8369;3,000 or more. Try the codes <b>VELORA10</b> or <b>WELCOME5</b>.</p>
+  <div class="cart-wrap">
+    <div class="panel" id="cart-items"></div>
+    <div class="panel sum">
+      <div class="bar"><i id="ship-bar"></i></div>
+      <p class="msg" id="ship-msg"></p>
+      <div><span>Subtotal</span><span id="subtotal"></span></div>
+      <div><span id="disc-label">Discount</span><span id="discount"></span></div>
+      <div><span>VAT (12%)</span><span id="tax"></span></div>
+      <div><span>Shipping</span><span id="shipping"></span></div>
+      <div class="total"><span>Total</span><span id="total"></span></div>
+      <div class="promo-row"><input id="promo" placeholder="Promo code"><button class="btn sm" id="apply-promo">Apply</button></div>
+      <p class="msg" id="promo-msg"></p>
+      <button class="btn full" id="checkout">Checkout</button>
+      <p class="msg" id="order-msg"></p>
     </div>
-    <div>
-      <p>hello@veloraonline.example</p>
-      <p>09123456789 · Cebu City, Philippines</p>
-    </div>
-  </footer>
-  <script type="py" src="main.py"></script>
+  </div>
+</section>
+
+<section class="block" id="about">
+  <h2>About Velora</h2>
+  <p class="sub">Velora Online brings fashion, gadgets, home and beauty together in one simple shopping experience.</p>
+</section>
+
+<section class="block">
+  <h2>Contact Us</h2>
+  <p class="sub">Send us a message &mdash; the form is validated live with Python.</p>
+  <div class="contact">
+    <form class="panel" id="contact-form" novalidate>
+      <div class="field"><label for="name">Name</label><input id="name" placeholder="Your name"></div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div>
+      <div class="field"><label for="message">Message</label><textarea id="message" maxlength="200" placeholder="How can we help? (min. 10 characters)"></textarea><div class="count" id="char-count">0 / 200</div></div>
+      <button class="btn full" type="submit">Send Message</button>
+      <p class="msg" id="form-status"></p>
+    </form>
+    <div class="panel" id="inbox"><h3 style="margin-bottom:10px">Messages sent this session</h3><p class="empty" id="inbox-empty">Nothing yet.</p><div id="inbox-list"></div></div>
+  </div>
+</section>
+
+<div id="toast"></div>
+
+<footer id="contact">
+  <div class="logo"><img src="logo.svg" alt="Velora logo" style="filter:brightness(10)"> VELORA</div>
+  <p>© 2026 Velora Online. Fashion · Gadgets · Home · Beauty</p>
+</footer>
+
+<script type="py">
+import random
+from pyscript import document, window
+from pyscript import when
+from pyodide.ffi import create_once_callable
+
+# ---------- Data ----------
+PRODUCTS = [
+    {"id": 1, "name": "Classic White Sneakers", "cat": "Fashion", "price": 2499, "emoji": "\U0001F45F"},
+    {"id": 2, "name": "Wireless Headphones", "cat": "Gadgets", "price": 4299, "emoji": "\U0001F3A7"},
+    {"id": 3, "name": "Smart Watch", "cat": "Gadgets", "price": 3599, "emoji": "\u231A"},
+    {"id": 4, "name": "Aviator Sunglasses", "cat": "Fashion", "price": 1299, "emoji": "\U0001F576\uFE0F"},
+    {"id": 5, "name": "Signature Perfume", "cat": "Beauty", "price": 1899, "emoji": "\U0001F9F4"},
+    {"id": 6, "name": "Scented Candle", "cat": "Home", "price": 499, "emoji": "\U0001F56F\uFE0F"},
+    {"id": 7, "name": "Denim Jacket", "cat": "Fashion", "price": 2799, "emoji": "\U0001F9E5"},
+    {"id": 8, "name": "Indoor Plant Set", "cat": "Home", "price": 899, "emoji": "\U0001FAB4"},
+]
+BY_ID = {p["id"]: p for p in PRODUCTS}
+PROMOS = {"VELORA10": 0.10, "WELCOME5": 0.05}
+VAT, SHIPPING_FEE, FREE_SHIPPING_AT = 0.12, 150, 3000
+
+cart = {}                      # product id -> quantity
+state = {"rate": 0.0, "code": ""}
+messages = []
+
+def q(sel):
+    return document.querySelector(sel)
+
+def peso(n):
+    return f"\u20b1{n:,.2f}"
+
+def toast(text):
+    t = q("#toast")
+    t.textContent = text
+    t.classList.add("show")
+    window.setTimeout(create_once_callable(lambda: t.classList.remove("show")), 1800)
+
+# ---------- Products (search / filter / sort events) ----------
+def card(p):
+    return (
+        f'''<article class="card"><div class="thumb">{p["emoji"]}</div>
+        <small>{p["cat"]}</small><h3>{p["name"]}</h3>
+        <div class="row"><b>{peso(p["price"])}</b>
+        <button class="btn sm" data-add="{p["id"]}">Add to Cart</button></div></article>'''
+    )
+
+def render_products():
+    text = q("#search").value.strip().lower()
+    cat = q("#category").value
+    sort = q("#sort").value
+    items = [p for p in PRODUCTS if (cat == "All" or p["cat"] == cat) and text in p["name"].lower()]
+    if sort == "low":
+        items.sort(key=lambda p: p["price"])
+    elif sort == "high":
+        items.sort(key=lambda p: p["price"], reverse=True)
+    q("#product-grid").innerHTML = "".join(card(p) for p in items) or '<p class="empty">No products match your search.</p>'
+    q("#result-count").textContent = f"{len(items)} product(s)"
+
+@when("input", "#search")
+def on_search(event):
+    render_products()
+
+@when("change", "#category")
+def on_category(event):
+    render_products()
+
+@when("change", "#sort")
+def on_sort(event):
+    render_products()
+
+@when("click", "#product-grid")
+def on_add(event):
+    btn = event.target.closest("button")
+    if not btn or not btn.hasAttribute("data-add"):
+        return
+    pid = int(btn.getAttribute("data-add"))
+    cart[pid] = cart.get(pid, 0) + 1
+    render_cart()
+    toast(f"Added {BY_ID[pid]['name']} to cart")
+
+# ---------- Cart (calculations + dynamic updates) ----------
+def totals():
+    subtotal = sum(BY_ID[i]["price"] * n for i, n in cart.items())
+    discount = subtotal * state["rate"]
+    tax = (subtotal - discount) * VAT
+    shipping = 0 if (subtotal >= FREE_SHIPPING_AT or subtotal == 0) else SHIPPING_FEE
+    return subtotal, discount, tax, shipping, subtotal - discount + tax + shipping
+
+def render_cart():
+    count = sum(cart.values())
+    q("#cart-link").textContent = f"Cart ({count})"
+    if cart:
+        rows = ""
+        for pid, qty in cart.items():
+            p = BY_ID[pid]
+            rows += (
+                f'''<div class="item"><span class="em">{p["emoji"]}</span>
+                <div><b>{p["name"]}</b><small>{peso(p["price"])} each</small></div>
+                <div class="qty"><button data-dec="{pid}">\u2212</button><span>{qty}</span><button data-inc="{pid}">+</button></div>
+                <b class="line">{peso(p["price"] * qty)}</b>
+                <button class="x" data-remove="{pid}" aria-label="Remove">\u2715</button></div>'''
+            )
+        q("#cart-items").innerHTML = rows
+    else:
+        q("#cart-items").innerHTML = '<p class="empty">Your cart is empty. Add something from the products above!</p>'
+
+    subtotal, discount, tax, shipping, total = totals()
+    q("#subtotal").textContent = peso(subtotal)
+    q("#discount").textContent = "-" + peso(discount)
+    q("#disc-label").textContent = f"Discount ({state['code']})" if state["code"] else "Discount"
+    q("#tax").textContent = peso(tax)
+    q("#shipping").textContent = "Free" if shipping == 0 else peso(shipping)
+    q("#total").textContent = peso(total)
+    pct = min(100, subtotal / FREE_SHIPPING_AT * 100)
+    q("#ship-bar").style.width = f"{pct}%"
+    if subtotal == 0:
+        q("#ship-msg").textContent = ""
+    elif subtotal >= FREE_SHIPPING_AT:
+        q("#ship-msg").textContent = "You've unlocked free shipping!"
+    else:
+        q("#ship-msg").textContent = f"Add {peso(FREE_SHIPPING_AT - subtotal)} more for free shipping"
+
+@when("click", "#cart-items")
+def on_cart_click(event):
+    btn = event.target.closest("button")
+    if not btn:
+        return
+    if btn.hasAttribute("data-inc"):
+        cart[int(btn.getAttribute("data-inc"))] += 1
+    elif btn.hasAttribute("data-dec"):
+        pid = int(btn.getAttribute("data-dec"))
+        cart[pid] -= 1
+        if cart[pid] <= 0:
+            del cart[pid]
+    elif btn.hasAttribute("data-remove"):
+        del cart[int(btn.getAttribute("data-remove"))]
+    render_cart()
+
+@when("click", "#apply-promo")
+def on_promo(event):
+    code = q("#promo").value.strip().upper()
+    msg = q("#promo-msg")
+    if code in PROMOS:
+        state["rate"], state["code"] = PROMOS[code], code
+        msg.textContent = f"Code {code} applied: {int(PROMOS[code] * 100)}% off"
+        msg.className = "msg ok"
+    else:
+        state["rate"], state["code"] = 0.0, ""
+        msg.textContent = "Invalid promo code."
+        msg.className = "msg err"
+    render_cart()
+
+@when("click", "#checkout")
+def on_checkout(event):
+    msg = q("#order-msg")
+    if not cart:
+        msg.textContent = "Your cart is empty."
+        msg.className = "msg err"
+        return
+    total = totals()[4]
+    msg.textContent = f"Order #{random.randint(10000, 99999)} placed! Total paid: {peso(total)}. Thank you!"
+    msg.className = "msg ok"
+    cart.clear()
+    state["rate"], state["code"] = 0.0, ""
+    render_cart()
+
+# ---------- Contact form (user input + submit events) ----------
+@when("input", "#message")
+def on_message_input(event):
+    q("#char-count").textContent = f"{len(q('#message').value)} / 200"
+
+@when("submit", "#contact-form")
+def on_submit(event):
+    event.preventDefault()
+    name = q("#name").value.strip()
+    email = q("#email").value.strip()
+    message = q("#message").value.strip()
+    status = q("#form-status")
+    problems = []
+    if len(name) < 2:
+        problems.append("Please enter your name.")
+    if " " in email or "@" not in email or "." not in email.split("@")[-1]:
+        problems.append("Please enter a valid email.")
+    if len(message) < 10:
+        problems.append("Message must be at least 10 characters.")
+    if problems:
+        status.textContent = " ".join(problems)
+        status.className = "msg err"
+        return
+    messages.append((name, email, message))
+    status.textContent = f"Thanks, {name}! We'll reply to {email} soon."
+    status.className = "msg ok"
+    entry = document.createElement("div")
+    entry.className = "item"
+    entry.style.gridTemplateColumns = "1fr"
+    entry.innerHTML = "<b></b><small></small>"
+    entry.children[0].textContent = f"{name} ({email})"
+    entry.children[1].textContent = message
+    q("#inbox-list").appendChild(entry)
+    q("#inbox-empty").style.display = "none"
+    q("#contact-form").reset()
+    q("#char-count").textContent = "0 / 200"
+    toast("Message sent!")
+
+# ---------- Initial render ----------
+render_products()
+render_cart()
+</script>
+
 </body>
 </html>
+fonts.googleapis.com
